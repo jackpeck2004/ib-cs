@@ -1,0 +1,10 @@
+{
+  "name": "07_for",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "tsc": "^1.20150623.0",
+    "typescript": "^4.0.5"
+  }
+}
