@@ -27,16 +27,6 @@ function encrypt(message, alphabet, shiftedAlphabet) {
   return msgArr.join("");
 }
 
-function encrypt(message, alphabet, shiftedAlphabet) {
-  const msgArr = message.split("");
-
-  for (let i = 0; i < msgArr.length; i = i + 1) {
-    msgArr[i] = shiftedAlphabet[alphabet.indexOf(msgArr[i])];
-  }
-
-  return msgArr.join("");
-}
-
 function decrypt(message, alphabet, shiftedAlphabet) {
   const msgArr = message.split("");
 
