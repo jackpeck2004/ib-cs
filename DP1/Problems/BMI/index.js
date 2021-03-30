@@ -16,6 +16,26 @@ function outputCategory(BMI) {
   }
 }
 
-const BorisBMI = calcBMI(1.93, 83);
+const weight = [52, 100, 105, 61, 88];
+const height = [1.56, 2.0, 2.03, 1.75, 1.8];
+const names = ['Anne', 'Boris', 'Hughes', 'Paul', 'Robby'];
+const bmis = [];
 
+let sum = 0;
+
+for (let i = 0; i < weight.length; i++) {
+  const bmi = calcBMI(height[i], weight[i]);
+  bmis.push(bmi);
+  sum += bmi;
+}
+
+const avgBMI = sum / weight.length;
+
+for (let i = 0; i < names.length[i]; i++) {
+  if (bmi[i] < avgBMI) {
+    console.log(names[i]);
+  }
+}
+
+const BorisBMI = calcBMI(1.93, 83);
 outputCategory(BorisBMI);
