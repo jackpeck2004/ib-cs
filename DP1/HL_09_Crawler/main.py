@@ -1,11 +1,9 @@
-import json
 import os
 from urllib.parse import urlparse
 
 import networkx as nx
 import requests
 from bs4 import BeautifulSoup
-from networkx.readwrite import json_graph
 
 import lib.functions as fn
 
