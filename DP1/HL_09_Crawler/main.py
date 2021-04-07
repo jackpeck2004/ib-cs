@@ -21,11 +21,11 @@ file_path = f"out/{filename}"
 # Check if a saved graph already exists
 if not os.path.exists(file_path):
     # If not scrape the website and create graph
-    while not len(url_queue) == 0 and count > 0:
+    while not len(url_queue) == 0 and count - 1:
         url = url_queue.pop()
         parsed_url = urlparse(url)
         base_url = f'{parsed_url.scheme}://{parsed_url.netloc}'
-        print(f'{count}:\t{base_url}')
+        print(f'{abs(count)}:\t{base_url}')
         count -= 1
         try:
             response = requests.get(url)
