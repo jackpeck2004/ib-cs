@@ -10,7 +10,7 @@ import lib.functions as fn
 url_queue = ['http://h-farm.com']
 G = nx.Graph()
 
-count = 20
+count = 10
 seed = count
 
 filename = f"{urlparse(url_queue[0]).netloc}_{seed}.json"
