@@ -1,0 +1,28 @@
+body {
+  background-color: #16161d;
+  color: #cdcdcd;
+}
+
+section {
+  display: flex;
+}
+
+section p {
+  flex: 1;
+}
+
+section p.important {
+  border: 1px solid #cdcdcd;
+}
+
+section p.important.white {
+  background-color: red;
+  color: blue;
+}
+
+#click-me-button {
+  padding: 10px;
+  background-color: purple;
+  color: yellow;
+  border: 2px solid red;
+}
