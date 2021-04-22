@@ -6,7 +6,7 @@ function handleClickMeBtnClick() {
   setInterval(() => {
     const classList = p.classList;
     p.classList.toggle("white");
-  });
+  }, 1000);
 }
 
 clickMeBtn.addEventListener("click", handleClickMeBtnClick);
