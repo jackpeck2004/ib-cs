@@ -1,0 +1,53 @@
+:root {
+  --input-width: 200px;
+}
+
+body {
+  padding: 0 20%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+}
+
+input {
+  border: none;
+  height: 30px;
+  border-bottom: 2px solid darkgray;
+  width: var(--input-width);
+  transition: 250ms;
+  outline: none;
+}
+
+input:focus,
+input:hover {
+  border-bottom: 2px solid lightblue;
+  cursor: text;
+}
+
+button[type="submit"] {
+  margin-top: auto;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 2% 5%;
+  text-align: center;
+  transition: 250ms;
+  width: calc(var(--input-width) / 2);
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background: darkgray;
+}
+
+#socks {
+  width: calc(100vw- 40%);
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
