@@ -28,7 +28,7 @@ input:hover {
   cursor: text;
 }
 
-button[type="submit"] {
+button {
   margin-top: auto;
   background: black;
   color: white;
@@ -41,7 +41,7 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button:hover {
   background: darkgray;
 }
 
