@@ -1,6 +1,5 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-const path = require('path');
 const logger = require('pino')();
 
 const app = express();
