@@ -7,7 +7,12 @@ from bs4 import BeautifulSoup
 
 import lib.functions as fn
 
-url_queue = ['http://h-farm.com']
+if 'START_URL' in os.environ:
+    start_url = os.environ['START_URL']
+else:
+    start_url = 'http://h-farm.com'
+
+url_queue = [start_url]
 G = nx.Graph()
 
 count = 10
