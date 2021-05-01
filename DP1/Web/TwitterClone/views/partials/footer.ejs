@@ -1,0 +1,10 @@
+<footer class="text-secondary py-3 bg-black m">
+    <ul id="footer-links" class="list-inline text-center">
+    <% const links = []; for(let i = 0; i < links.length; i++) { %>
+        <li><a class="text-decoration-none hover-text-white text-secondary" href="<%= links[i].path %>"><%= links[i].value %></a></li>
+    <% } %>
+    </ul>
+    <div class="d-flex justify-content-center">
+        <span>&copy; 2021 Giacomo Pasin</span>
+    </div>
+</footer>

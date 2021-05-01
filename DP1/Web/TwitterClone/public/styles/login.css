@@ -1,0 +1,48 @@
+#login-title {
+  width: 300px;
+}
+
+#login-form > .form-input {
+  border: 1px solid var(--muted);
+  position: relative;
+  height: 60px;
+  min-width: 300px;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+#login-form > .form-input > label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  padding-left: 10px;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 1.2rem;
+}
+
+#login-form > .form-input > input {
+  position: absolute;
+  background: none;
+  border: none;
+  padding-right: 0;
+  left: 0;
+  color: var(--white);
+}
+
+#login-form > .form-input:focus-within {
+  border: 2px solid var(--highlight-color);
+  color: var(--highlight-color) !important;
+  outline: none;
+}
+
+#login-form > .form-input:focus-within > label {
+  top: 0;
+  transform: translateY(0);
+  font-size: 12px;
+  color: var(--highlight-color);
+}
+
+#login-form > .form-input > input:focus {
+  outline: none;
+}

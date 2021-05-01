@@ -1,0 +1,42 @@
+#cover {
+  background-image: url('../images/cover.png');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#cover-logo {
+  width: 60%;
+}
+
+#home-cta-div {
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+.login-button {
+  width: 400px;
+  border: 1px solid var(--highlight-color);
+  padding: 10px 0px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--highlight-color);
+  margin-top: 10px;
+  font-weight: bold;
+  border-radius: 25px;
+}
+
+.login-button:hover {
+  background: rgba(49, 145, 213, 0.205);
+  color: var(--highlight-color);
+}
+
+.login-button-primary {
+  background: var(--highlight-color);
+  color: white;
+}
+
+.login-button-primary:hover {
+  background: rgb(87, 155, 204);
+  color: white;
+}
