@@ -17,13 +17,7 @@ app.set('view engine', 'ejs');
 //   },
 // ];
 
-app.get('/', (req, res) => {
-  res.render('pages/home', {
-    title: 'Home',
-  });
-});
-
-if (process.env.NODE_ENV === 'development') {
+if (app.get('env') === 'development') {
   logger.info('Running in development mode');
   app.get('/:route', (req, res) => {
     res.render(`pages/${req.params.route}`, {
@@ -31,5 +25,11 @@ if (process.env.NODE_ENV === 'development') {
     });
   });
 }
+
+app.get('/', (req, res) => {
+  res.render('pages/home', {
+    title: 'Home',
+  });
+});
 
 app.listen(port, () => logger.info(`Server listening on port ${port}...`));
