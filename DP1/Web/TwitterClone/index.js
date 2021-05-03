@@ -17,13 +17,10 @@ app.set('view engine', 'ejs');
 //   },
 // ];
 
+// Special config and routes for development mode
 if (app.get('env') === 'development') {
-  logger.info('Running in development mode');
-  app.get('/:route', (req, res) => {
-    res.render(`pages/${req.params.route}`, {
-      title: req.params.route,
-    });
-  });
+  // eslint-disable-next-line global-require
+  require('./environments/development')(app, logger);
 }
 
 app.get('/', (req, res) => {
@@ -32,4 +29,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(port, () => logger.info(`Server listening on port ${port}...`));
+app.listen(port, () => {
+  logger.info(`Server listening on port ${port}...`);
+  logger.info(`Running in env: ${app.get('env')}`);
+});
