@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node | pino-pretty",
+    "start": "node . | pino-pretty",
     "dev": "NODE_ENV=\"development\" nodemon | pino-pretty",
     "lint": "eslint --fix ."
   },
