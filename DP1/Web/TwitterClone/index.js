@@ -1,9 +1,15 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const logger = require('pino')();
+const Air5 = require('air5');
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+const database = new Air5('tweets', {
+  provider: 'json',
+  path: './db',
+});
 
 app.use(expressLayouts);
 app.use(express.static(`${__dirname}/public`));
@@ -16,6 +22,27 @@ app.set('view engine', 'ejs');
 //     path: '/',
 //   },
 // ];
+
+app.post('/create', (req, res) => {
+  const promise = database.set(`tweet_${Math.random()}`, {
+    user: 'John Doe',
+    content: `Tweet Content is ${Math.random()} <- this number was created randomly`,
+  });
+
+  promise.then(() => {
+    res.send('Ok!');
+  });
+});
+
+app.get('/list', (req, res) => {
+  const promise = database.values();
+  promise.then((tweets) => {
+    res.render('pages/tweets', {
+      title: 'Feed',
+      tweets,
+    });
+  });
+});
 
 // Special config and routes for development mode
 if (app.get('env') === 'development') {
