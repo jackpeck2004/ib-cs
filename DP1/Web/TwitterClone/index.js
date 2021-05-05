@@ -4,7 +4,7 @@ const logger = require('pino')();
 const Air5 = require('air5');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 const database = new Air5('tweets', {
   provider: 'json',
@@ -34,13 +34,19 @@ app.post('/create', (req, res) => {
   });
 });
 
+// app.get('/list', (req, res) => {
+//   const promise = database.values();
+//   promise.then((tweets) => {
+//     res.render('pages/tweets', {
+//       title: 'Feed',
+//       tweets,
+//     });
+//   });
+// });
+
 app.get('/list', (req, res) => {
-  const promise = database.values();
-  promise.then((tweets) => {
-    res.render('pages/tweets', {
-      title: 'Feed',
-      tweets,
-    });
+  database.entries().then((tweets) => {
+    res.send(tweets);
   });
 });
 
