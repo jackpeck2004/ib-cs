@@ -1,6 +1,40 @@
 <div class="container">
-  <h1>Feed Page</h1>
-  <% for (let i = 0; i < tweets.length; i++) { const tweet = tweets[i]; %>
-  <li><%= tweet.user %> <%= tweet.content %></li>
-  <% } %>
+  <div class="row">
+    <div class="col-3">First</div>
+    <div class="col-6">
+      <h1>Tweet list</h1>
+      <% for (let i = 0; i < tweets.length; i++) { const dbTweet = tweets[i];
+      const tweet = dbTweet[1]; %>
+      <div class="card my-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-1">img</div>
+            <div class="col-11">
+              <h5 class="card-title"><%= tweet.user %></h5>
+              <p class="card-text"><%= tweet.content %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+    <div class="col-3">
+      <div class="card">
+        <div class="card-body">
+          <form method="POST" action="/create">
+            <label for="tweet-content-textarea">Content</label>
+            <textarea
+              class="form-control"
+              id="tweet-content-textarea"
+              name="tweetContent"
+              rows="3"
+            ></textarea>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary mt-3" type="submit">Tweet</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

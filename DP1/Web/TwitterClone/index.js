@@ -3,6 +3,8 @@ const expressLayouts = require('express-ejs-layouts');
 const logger = require('pino')();
 const Air5 = require('air5');
 
+const tweetUtils = require('./utils/tweets');
+
 const app = express();
 const port = process.env.PORT || 5001;
 
@@ -11,6 +13,7 @@ const database = new Air5('tweets', {
   path: './db',
 });
 
+app.use(express.urlencoded({ extended: true }));
 app.use(expressLayouts);
 app.use(express.static(`${__dirname}/public`));
 app.set('layout', './layouts/layout');
@@ -24,29 +27,28 @@ app.set('view engine', 'ejs');
 // ];
 
 app.post('/create', (req, res) => {
-  const promise = database.set(`tweet_${Math.random()}`, {
+  const date = new Date();
+
+  const { tweetContent } = req.body;
+
+  const hashtags = tweetUtils.extractHashtags(tweetContent);
+
+  const promise = database.set(`tweet_${date.valueOf()}`, {
     user: 'John Doe',
-    content: `Tweet Content is ${Math.random()} <- this number was created randomly`,
+    content: tweetContent,
   });
 
   promise.then(() => {
-    res.send('Ok!');
+    res.redirect('/list');
   });
 });
 
-// app.get('/list', (req, res) => {
-//   const promise = database.values();
-//   promise.then((tweets) => {
-//     res.render('pages/tweets', {
-//       title: 'Feed',
-//       tweets,
-//     });
-//   });
-// });
-
 app.get('/list', (req, res) => {
   database.entries().then((tweets) => {
-    res.send(tweets);
+    res.render('pages/tweets', {
+      title: 'Tweets',
+      tweets,
+    });
   });
 });
 
