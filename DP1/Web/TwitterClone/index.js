@@ -8,7 +8,12 @@ const tweetUtils = require('./utils/tweets');
 const app = express();
 const port = process.env.PORT || 5001;
 
-const database = new Air5('tweets', {
+const tweetTable = new Air5('tweets', {
+  provider: 'json',
+  path: './db',
+});
+
+const hashtagTable = new Air5('hashtags', {
   provider: 'json',
   path: './db',
 });
@@ -33,9 +38,34 @@ app.post('/create', (req, res) => {
 
   const hashtags = tweetUtils.extractHashtags(tweetContent);
 
-  const promise = database.set(`tweet_${date.valueOf()}`, {
+  for (let i = 0; i < hashtags.length; i += 1) {
+    const hashtag = hashtags[i];
+
+    hashtagTable.get(hashtag).then((foundHashtag) => {
+      if (!foundHashtag) {
+        hashtagTable
+          .set(hashtag, {
+            count: 1,
+          })
+          .then(() => {
+            console.log('created new hashtag');
+          });
+      } else {
+        hashtagTable
+          .set(hashtag, {
+            count: foundHashtag.count + 1,
+          })
+          .then(() => {
+            console.log('updated');
+          });
+      }
+    });
+  }
+
+  const promise = tweetTable.set(`tweet_${date.valueOf()}`, {
     user: 'John Doe',
     content: tweetContent,
+    hashtags,
   });
 
   promise.then(() => {
@@ -43,11 +73,30 @@ app.post('/create', (req, res) => {
   });
 });
 
-app.get('/list', (req, res) => {
-  database.entries().then((tweets) => {
-    res.render('pages/tweets', {
-      title: 'Tweets',
-      tweets,
+app.get('/list/:hashtag?', (req, res) => {
+  let filteredTweets = [];
+
+  tweetTable.entries().then((tweets) => {
+    hashtagTable.entries().then((hashtags) => {
+      if (req.params.hashtag) {
+        filteredTweets = tweets.filter((tweet) =>
+          tweet[1].hashtags.includes(req.params.hashtag)
+        );
+      } else {
+        filteredTweets = tweets;
+      }
+
+      hashtags.sort((a, b) => {
+        if (a[1].count >= b[1].count) {
+          return -1;
+        }
+        return 1;
+      });
+      res.render('pages/tweets', {
+        title: 'Tweets',
+        tweets: filteredTweets,
+        hashtags,
+      });
     });
   });
 });
