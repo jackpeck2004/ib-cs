@@ -2,16 +2,24 @@
   <div class="row">
     <div class="col-3">First</div>
     <div class="col-6">
-      <h1>Tweet list</h1>
-      <% for (let i = 0; i < tweets.length; i++) { const dbTweet = tweets[i];
-      const tweet = dbTweet[1]; %>
+      <a href='/list'><h1>Twitter Clone</h1></a>
+      <% for (let i = 0; i < tweets.length; i++) {
+        const dbTweet = tweets[i];
+        const tweet = dbTweet[1];
+        const content = tweet.content.split(' ').map((word) => {
+            if (word.charAt(0) === '#') {
+              return `<a href=\'/list/${word.substring(1)}\'>${word}</a>`
+            }
+            return word
+            }).join(' ')
+      %>
       <div class="card my-4">
         <div class="card-body">
           <div class="row">
             <div class="col-1">img</div>
             <div class="col-11">
               <h5 class="card-title"><%= tweet.user %></h5>
-              <p class="card-text"><%= tweet.content %></p>
+              <p class="card-text"><%- content %></p>
             </div>
           </div>
         </div>
