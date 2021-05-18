@@ -101,6 +101,31 @@ app.get('/list/:hashtag?', (req, res) => {
   });
 });
 
+app.get('/:hashtag', (req, res) => {
+  const tag = req.params.hashtag;
+  const dbTweetPromise = tweetTable.entries();
+  const dbHashtagPromise = hashtagTable.entries();
+  dbHashtagPromise.then((hashtags) => {
+    dbTweetPromise.then((tweets) => {
+      const result = [];
+      for (let i = 0; i < tweets.length; i += 1) {
+        const tweet = tweets[i][1];
+        for (let j = 0; j < tweet.hashtags.length; j += 1) {
+          const hashtag = tweet.hashtags[j];
+          if (hashtag === tag) {
+            result.push(tweets[i]);
+          }
+        }
+      }
+      res.render('pages/tweets', {
+        title: 'Tweets',
+        tweets: result,
+        hashtags,
+      });
+    });
+  });
+});
+
 // Special config and routes for development mode
 if (app.get('env') === 'development') {
   // eslint-disable-next-line global-require
