@@ -1,4 +1,4 @@
-const { generateRandomSolution, calculateFitness, getRandomNumber, mutate } = require("./utils");
+const { generateRandomSolution, calculateFitness, getRandomNumber, mutate, pmx, truncate } = require("./utils");
 const { PX } = require("./crossovers")
 
 const distanceArray = [
@@ -16,7 +16,7 @@ const cities = ['X', 'A', 'B', 'C', 'D', 'E', 'F', 'G'];
 
 // Initialize population
 const populationSize = 5;
-const population = [];
+let population = [];
 
 const mutationRate = 0.30;
 let bestSolution = [];
@@ -25,8 +25,10 @@ for (let i = 0; i < populationSize; i = i + 1) {
   population.push(generateRandomSolution(cities));
 }
 
+let sameTopCount = 0;
+let topFitness = calculateFitness(population[0], distanceArray);
 
-while(true) {
+while(sameTopCount < 10) {
   // Evaluate
   population.sort((a, b) => calculateFitness(a, distanceArray) > calculateFitness(b, distanceArray) ? 1 : -1);
 
@@ -39,16 +41,35 @@ while(true) {
   population.unshift();
   const best = population.slice(0, Math.floor(populationSize / 2));
   const worst = population.slice(best.length, population.length - 1);
+  truncate(worst);
+
+  const currentTopFitness = calculateFitness(best[0], distanceArray);
+  if (currentTopFitness > topFitness) {
+    topFitness = currentTopFitness;
+    sameTopCount = 0;
+  } else {
+    sameTopCount += 1;
+  }
 
   // Mutate
   if (Math.random() <= mutationRate){
     const min = 0;
-    const max = worst.length;
-    const randomIdxWorst =getRandomNumber(min, max);
+    const max = worst.length - 1;
+    const randomIdxWorst = getRandomNumber(min, max);
     mutate(worst[randomIdxWorst]);
   }
 
   // Crossover
-  const solution = PX(best[0], best[getRandomNumber(1, best.length - 1)]);
-  population.push(solution);
+  const newBorn = pmx(best);
+  population.push(newBorn);
+
+  population = [...best, ...worst, newBorn]
 }
+
+console.log("Better solution")
+const solution = [];
+for (let i = 0; i < population[0].length; i += 1) {
+  solution.push(cities[population[0][i]]);
+}
+
+console.log(solution.join(" "));

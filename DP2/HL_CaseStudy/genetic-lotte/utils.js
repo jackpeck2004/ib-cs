@@ -57,17 +57,71 @@ function generateRandomSolution(cities) {
 function mutate(solution) {
   const min = 1;
   const max = solution.length - 2;
-  const startRandomIdx = getRandonNumber(min, max);
-  let endRandomIdx = getRandonNumber(min, max);
+  const startRandomIdx = getRandomNumber(min, max);
+  let endRandomIdx = getRandomNumber(min, max);
 
 
   while(startRandomIdx === endRandomIdx) {
-    endRandomIdx = getRandonNumber(min, max);
+    endRandomIdx = getRandomNumber(min, max);
   }
 
-  const tmp = solution[endRandomIdx];
+  const tmp = solution[startRandomIdx];
   solution[startRandomIdx] = solution[endRandomIdx];
   solution[endRandomIdx] = tmp;
+}
+
+function truncate(population) {
+  population.pop()
+}
+
+function pmx(population) {
+  const parent1Idx = getRandomNumber(0, population.length - 1);
+  let parent2Idx = getRandomNumber(0, population.length - 1);
+  
+  while (parent1Idx === parent2Idx) {
+    parent2Idx = getRandomNumber(0, population.length - 1);
+  }
+  
+  const parent1 = population[parent1Idx];
+  const parent2 = population[parent2Idx];
+
+  const child = [0];
+  for (let i = 1; i < parent1.length - 1; i += 1) {
+    child.push("*");
+  }
+  child.push(0)
+
+  const firstIdx = getRandomNumber(1, parent1.length - 3);
+  const secondIdx = getRandomNumber(firstIdx, parent1.length - 2);
+
+  for (let i = firstIdx; i <= secondIdx; i += 1) {
+    child[i] = parent1[i];
+  }
+
+
+  let p2Idx = 1;
+  for (let i = 1; i < firstIdx; i += 1) {
+    let candidate = parent2[p2Idx];
+    while(isCityInSolution(child, candidate)) {
+      p2Idx += 1;
+      candidate = parent2[p2Idx];
+    }
+    child[i] = candidate;
+    //mapped.push(candidate);
+  }
+
+  for (let i = secondIdx + 1; i < child.length - 1; i += 1) {
+    let candidate = parent2[p2Idx];
+    while(isCityInSolution(child, candidate)) {
+      p2Idx += 1;
+      candidate = parent2[p2Idx];
+    }
+    child[i] = candidate;
+    //mapped.push(candidate);
+  }
+
+  return child;
+
 }
 
 module.exports = {
@@ -75,7 +129,9 @@ module.exports = {
   generateRandomSolution,
   isCityInSolution,
   getRandomNumber,
-  mutate
+  mutate,
+  truncate,
+  pmx
 }
 
 
