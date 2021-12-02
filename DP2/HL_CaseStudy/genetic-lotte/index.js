@@ -1,4 +1,5 @@
-const { generateRandomSolution, calculateFitness } = require("./utils");
+const { generateRandomSolution, calculateFitness, getRandomNumber, mutate } = require("./utils");
+const { PX } = require("./crossovers")
 
 const distanceArray = [
   [0, 94, 76, 141, 91, 60, 120, 145],
@@ -17,6 +18,9 @@ const cities = ['X', 'A', 'B', 'C', 'D', 'E', 'F', 'G'];
 const populationSize = 5;
 const population = [];
 
+const mutationRate = 0.30;
+let bestSolution = [];
+
 for (let i = 0; i < populationSize; i = i + 1) {
   population.push(generateRandomSolution(cities));
 }
@@ -26,29 +30,25 @@ while(true) {
   // Evaluate
   population.sort((a, b) => calculateFitness(a, distanceArray) > calculateFitness(b, distanceArray) ? 1 : -1);
 
+  if (population[0] !== bestSolution) {
+    bestSolution = population[0];
+    console.log(bestSolution);
+  }
+
   // Select
+  population.unshift();
   const best = population.slice(0, Math.floor(populationSize / 2));
   const worst = population.slice(best.length, population.length - 1);
 
-  // Crossover
   // Mutate
-}
-
-  /*
-let finalSolution = generateRandomSolution(cities);
-let finalSolutionFitness = calculateFitness(finalSolution, distanceArray);
-
-
-while (true) {
-  const currentSolution = generateRandomSolution(cities);
-  const currentSolutionFitness = calculateFitness(currentSolution, distanceArray);
-
-  if (currentSolutionFitness > finalSolutionFitness) {
-    finalSolution = currentSolution;
-    console.log(finalSolution);
-    finalSolutionFitness = currentSolutionFitness;
+  if (Math.random() <= mutationRate){
+    const min = 0;
+    const max = worst.length;
+    const randomIdxWorst =getRandomNumber(min, max);
+    mutate(worst[randomIdxWorst]);
   }
-}
-*/
 
-//console.log(population);
+  // Crossover
+  const solution = PX(best[0], best[getRandomNumber(1, best.length - 1)]);
+  population.push(solution);
+}

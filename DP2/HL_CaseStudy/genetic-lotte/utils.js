@@ -1,3 +1,8 @@
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
 function calculateFitness(solution, distances) {
   // [0, 2, 1, 4, 3, 0] 
   let sum = 0;
@@ -49,10 +54,28 @@ function generateRandomSolution(cities) {
   return result;
 }
 
+function mutate(solution) {
+  const min = 1;
+  const max = solution.length - 2;
+  const startRandomIdx = getRandonNumber(min, max);
+  let endRandomIdx = getRandonNumber(min, max);
+
+
+  while(startRandomIdx === endRandomIdx) {
+    endRandomIdx = getRandonNumber(min, max);
+  }
+
+  const tmp = solution[endRandomIdx];
+  solution[startRandomIdx] = solution[endRandomIdx];
+  solution[endRandomIdx] = tmp;
+}
+
 module.exports = {
   calculateFitness,
   generateRandomSolution,
-  isCityInSolution
+  isCityInSolution,
+  getRandomNumber,
+  mutate
 }
 
 
